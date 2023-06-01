@@ -7,7 +7,6 @@
 #include <list>
 #include <memory>
 
-
 using namespace std;
 using boost::asio::ip::udp;
 using boost::asio::ip::tcp;
@@ -22,9 +21,9 @@ public:
 
 class ConnectionUdp : public Connection
 {
-     boost::asio::io_context io_context;
-     udp::socket socket;
-     udp::endpoint receiver_endpoint;
+    boost::asio::io_context io_context;
+    udp::socket socket;
+    udp::endpoint receiver_endpoint;
 
 public:
     ConnectionUdp()
@@ -58,6 +57,12 @@ public:
 
     void send(const string& message) override
     {
+        // Посылаем сообщение
+        boost::asio::write(socket, boost::asio::buffer(message));
+    }
+
+    void open()//??
+    {
         try
         {
             if (!connected.load())
@@ -81,17 +86,17 @@ public:
                 connected.store(true);
             }
 
-            // Посылаем сообщение
-            boost::asio::write(socket, boost::asio::buffer(message));
-
-            // Закрываем соединение
-            socket.close();
-            connected.store(false);
+            connected.store(false);//??
         }
         catch (const std::exception& e)
         {
-            std::cerr << "ConnectionTcp: Exception caught in send(): " << e.what() <<::endl;
+            std::cerr << "ConnectionTcp: Exception caught in open(): " << e.what() <<::endl;
         }
+    }
+
+    void close()
+    {
+        socket.close();
     }
 };
 

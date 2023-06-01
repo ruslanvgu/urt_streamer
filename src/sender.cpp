@@ -6,3 +6,8 @@ Sender::Sender()
 
 }
 
+void Sender::createChannel()
+{
+
+}
+
