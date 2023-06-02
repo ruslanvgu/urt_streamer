@@ -152,6 +152,7 @@ class Sender
 
 public:
     Sender();
+    unique_ptr<Connection> getChannel();
 
 };
 
