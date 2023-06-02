@@ -83,13 +83,17 @@ public:
         {
             std::cerr << e.what() << std::endl;
         }
-
     }
 
     void open()
     {
         //open connection
-        socket.connect(endpoint);
+        try{
+            socket.connect(endpoint);
+        }catch(std::exception& e)
+        {
+            std::cerr << e.what() <<std::endl;
+        }
     }
       /*  try
         {
@@ -125,17 +129,30 @@ public:
     void close()
     {
         //close connection
-        socket.close();
+        try{
+            socket.close();
+        }catch(std::exception& e)
+        {
+            std::cerr << e.what() <<std::endl;
+        }
     }
+};
+
+
+enum class PROT{
+    NONE = 0,
+    UPD,
+    TCP
 };
 
 class Sender
 {
-    //boost::asio::io_service io_service;
     list<unique_ptr<Connection>> connections;
+    void createChannel(const string& ip, uint32_t port, PROT prot);
+
 public:
     Sender();
-    void createChannel();
+
 };
 
 #endif // SENDER_H
