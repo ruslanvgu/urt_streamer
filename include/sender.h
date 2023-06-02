@@ -16,24 +16,47 @@ class Connection
 
 public:
     virtual void send(const string& message)=0;
+    virtual void open()=0;
+    virtual void close()=0;
     virtual ~Connection(){}
 };
 
 class ConnectionUdp : public Connection
 {
-    boost::asio::io_context io_context;
+    boost::asio::io_context io_context; // object for input/output
     udp::socket socket;
     udp::endpoint receiver_endpoint;
 
 public:
-    ConnectionUdp()
-        :socket(io_context, udp::endpoint(udp::v4(), 0))
+    ConnectionUdp(const string& ip, uint32_t port)
+        :socket(io_context)
     {
-        receiver_endpoint = udp::endpoint(boost::asio::ip::make_address("127.0.0.1"), 12345);
+        //definition ip an port
+        receiver_endpoint = udp::endpoint(boost::asio::ip::make_address(ip), port);
     }
+
     void send(const string& message) override
     {
-        socket.send_to(boost::asio::buffer(message), receiver_endpoint);
+        try
+        {
+            //send data from udp channel
+            socket.send_to(boost::asio::buffer(message), receiver_endpoint);
+        } catch(std::exception& e)
+        {
+            std::cerr << e.what() << std::endl;
+        }
+    }
+
+    void open()
+    {
+        //open udp socket
+        socket.open(boost::asio::ip::udp::v4());
+    }
+
+    void close()
+    {
+        //close udp channel
+        socket.close();
     }
 };
 
@@ -41,29 +64,34 @@ class ConnectionTcp : public Connection
 {
 private:
     boost::asio::io_service io_service;
-    tcp::resolver resolver;
     tcp::socket socket;
-    std::string host; // хост получателя
-    std::string port; // порт получателя
-    std::atomic<bool> connected{ false };
+    tcp::endpoint endpoint;
 
 public:
-    ConnectionTcp(const std::string& host_, const std::string& port_)
-        : resolver(io_service)
-        , socket(io_service)
-        , host(host_)
-        , port(port_)
-    {}
+    ConnectionTcp(const string& ip, uint32_t port)
+        : socket(io_service)
+        , endpoint(boost::asio::ip::address::from_string(ip), port)
+    {
+    }
 
     void send(const string& message) override
     {
-        // Посылаем сообщение
-        boost::asio::write(socket, boost::asio::buffer(message));
+        try {
+            // send message
+            boost::asio::write(socket, boost::asio::buffer(message));
+        }  catch (std::exception& e)
+        {
+            std::cerr << e.what() << std::endl;
+        }
+
     }
 
-    void open()//??
+    void open()
     {
-        try
+        //open connection
+        socket.connect(endpoint);
+    }
+      /*  try
         {
             if (!connected.load())
             {
@@ -92,10 +120,11 @@ public:
         {
             std::cerr << "ConnectionTcp: Exception caught in open(): " << e.what() <<::endl;
         }
-    }
+    }*/
 
     void close()
     {
+        //close connection
         socket.close();
     }
 };
