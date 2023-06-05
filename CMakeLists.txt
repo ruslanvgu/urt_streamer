@@ -14,6 +14,7 @@ set(SRC_FILES
     ${SRC_DIR}/reader.cpp
     ${SRC_DIR}/sender.cpp
     ${SRC_DIR}/storage.cpp
+    ${SRC_DIR}/manager.cpp
 )
 
 # Заголовочные файлы
@@ -22,6 +23,7 @@ set(INC_FILES
     ${INC_DIR}/reader.h
     ${INC_DIR}/sender.h
     ${INC_DIR}/storage.h
+    ${INC_DIR}/manager.h
 )
 
 add_executable(${CMAKE_PROJECT_NAME} ${SRC_FILES} ${INC_FILES})
