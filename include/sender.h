@@ -6,6 +6,7 @@
 #include <iostream>
 #include <list>
 #include <memory>
+#include <unordered_map>
 
 using namespace std;
 using boost::asio::ip::udp;
@@ -13,7 +14,6 @@ using boost::asio::ip::tcp;
 
 class Connection
 {
-
 public:
     virtual void send(const string& message)=0;
     virtual void open()=0;
@@ -147,12 +147,12 @@ enum class PROT{
 
 class Sender
 {
-    list<unique_ptr<Connection>> connections;
-    void createChannel(const string& ip, uint32_t port, PROT prot);
+    unordered_map<string, unique_ptr<Connection>> connections;
+    void createChannel(const string& name, const string& ip, uint32_t port, PROT prot);
 
 public:
     Sender();
-    unique_ptr<Connection> getChannel();
+    Connection* getChannel(const string& name);
 
 };
 
