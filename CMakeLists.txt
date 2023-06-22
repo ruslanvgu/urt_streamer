@@ -4,6 +4,7 @@ project(urt_streamer)
 include_directories(include)
 
 # Установка директорий
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
@@ -15,6 +16,7 @@ set(SRC_FILES
     ${SRC_DIR}/sender.cpp
     ${SRC_DIR}/storage.cpp
     ${SRC_DIR}/manager.cpp
+    ${SRC_DIR}/settings.cpp
 )
 
 # Заголовочные файлы
@@ -24,6 +26,7 @@ set(INC_FILES
     ${INC_DIR}/sender.h
     ${INC_DIR}/storage.h
     ${INC_DIR}/manager.h
+    ${INC_DIR}/settings.h
 )
 
 add_executable(${CMAKE_PROJECT_NAME} ${SRC_FILES} ${INC_FILES})

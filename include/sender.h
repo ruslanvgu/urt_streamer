@@ -12,6 +12,7 @@ using namespace std;
 using boost::asio::ip::udp;
 using boost::asio::ip::tcp;
 
+
 class Connection
 {
 public:
@@ -23,13 +24,14 @@ public:
 
 class ConnectionUdp : public Connection
 {
-    boost::asio::io_context io_context; // object for input/output
+   // boost::asio::io_context io_context; // object for input/output
+    boost::asio::io_service service;
     udp::socket socket;
     udp::endpoint receiver_endpoint;
 
 public:
     ConnectionUdp(const string& ip, uint32_t port)
-        :socket(io_context)
+        :socket(service/*,udp::endpoint(udp::v4(), 0)*/)
     {
         //definition ip an port
         receiver_endpoint = udp::endpoint(boost::asio::ip::make_address(ip), port);
