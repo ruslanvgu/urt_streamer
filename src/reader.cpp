@@ -16,13 +16,7 @@ Reader::Reader()
         throw "Inititalization failed!";
 }
 
-bool Reader::init()
-{
-    string pathDev =  "/dev/";
-
-}
-
-void Reader::read()
+void Reader::maincycle()
 {
     //debug
     while(1)
