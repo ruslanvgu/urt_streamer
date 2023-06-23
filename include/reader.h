@@ -6,7 +6,7 @@
 //#include <exception>
 #include "storage.h"
 #include <string>
-#include <../boost/asio.hpp>
+#include <boost/asio.hpp>
 
 using namespace std;
 
@@ -25,16 +25,16 @@ class Fpga : public Device
      boost::asio::io_service io_service;
 
      // Создаем UART-порт
-     boost::asio::serial_port port(io_service);
+     boost::asio::serial_port port;
 public:
-    Fpga() {}
+    Fpga(): port(io_service) {}
     void init() override
     {
 
          // Устанавливаем параметры порта
          //port.open("/dev/ttyS1");
          port.set_option(boost::asio::serial_port_base::baud_rate(115200));
-         port.set_option::asio::serial_port_base::character_size(8));
+         port.set_option(boost::asio::serial_port_base::character_size(8u));
          port.set_option(boost::asio::serial_port_base::flow_control(boost::asio::serial_port_base::flow_control::none));
          port.set_option(boost::asio::serial_port_base::parity(boost::asio::serial_port_base::parity::none));
          port.set_option(boost::asio::serial_port_base::stop_bits(boost::asio::serial_port_base::stop_bits::one));

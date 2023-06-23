@@ -12,8 +12,7 @@ Reader::Reader()
     */
 
 
-    if(!init())
-        throw "Inititalization failed!";
+
 }
 
 void Reader::maincycle()

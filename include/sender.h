@@ -31,9 +31,8 @@ class ConnectionUdp : public Connection
 
 public:
     ConnectionUdp(const string& ip, uint32_t port)
-        :socket(service/*,udp::endpoint(udp::v4(), 0)*/)
+        :socket(service)
     {
-        //definition ip an port
         receiver_endpoint = udp::endpoint(boost::asio::ip::make_address(ip), port);
     }
 
@@ -41,7 +40,6 @@ public:
     {
         try
         {
-            //send data from udp channel
             socket.send_to(boost::asio::buffer(message), receiver_endpoint);
         } catch(std::exception& e)
         {
@@ -51,13 +49,11 @@ public:
 
     void open()
     {
-        //open udp socket
         socket.open(boost::asio::ip::udp::v4());
     }
 
     void close()
     {
-        //close udp channel
         socket.close();
     }
 };
@@ -79,7 +75,6 @@ public:
     void send(const string& message) override
     {
         try {
-            // send message
             boost::asio::write(socket, boost::asio::buffer(message));
         }  catch (std::exception& e)
         {

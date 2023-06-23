@@ -5,21 +5,23 @@ project(urt_streamer)
 include_directories(include)
 set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
-
+#enable_language(CXX)
+set(CMAKE_CXX_STANDARD 17)
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-  message("Building on Linux")
+  message("########Building on Linux")
   # Установка директорий
   SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -lstdc++fs")
 
 else()
-  message("Building on other system")
+  message("#########Building on other system")
 
-  set(Boost_USE_STATIC_LIBS ON)
-  set(Boost_USE_MULTITHREADED ON)
-  set(BOOST_ROOT "C:/boost/include/boost")
-  set(BOOST_LIBRARYDIR "C:/boost/lib")
-  find_package(Boost REQUIRED COMPONENTS system thread)
-  include_directories(${Boost_INCLUDE_DIRS})
+  #set(Boost_USE_STATIC_LIBS ON)
+  #set(Boost_USE_MULTITHREADED ON)
+  #set(BOOST_ROOT "C:/boost/include/boost")
+  #set(BOOST_LIBRARYDIR "C:/boost/lib")
+  #find_package(Boost REQUIRED COMPONENTS system thread)
+  #include_directories(${Boost_INCLUDE_DIRS})
 endif()
 
 
@@ -46,5 +48,8 @@ set(INC_FILES
 )
 
 # Add your source files
- add_executable(${CMAKE_PROJECT_NAME} ${SRC_DIR} ${INC_DIR})
- target_link_libraries(${CMAKE_PROJECT_NAME} Boost::system Boost::thread)
+ #add_executable(${CMAKE_PROJECT_NAME} ${SRC_DIR} ${INC_DIR})
+ add_executable(urt_streamer ${SRC_FILES} ${INC_FILES})
+ target_link_libraries(${PROJECT_NAME} stdc++fs)
+# target_link_libraries(${CMAKE_PROJECT_NAME} Boost::system Boost::thread)
+
