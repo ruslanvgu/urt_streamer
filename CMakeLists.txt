@@ -13,6 +13,8 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -lstdc++fs")
 
+  find_package(Boost REQUIRED COMPONENTS filesystem)
+
 else()
   message("#########Building on other system")
 
@@ -51,5 +53,6 @@ set(INC_FILES
  #add_executable(${CMAKE_PROJECT_NAME} ${SRC_DIR} ${INC_DIR})
  add_executable(urt_streamer ${SRC_FILES} ${INC_FILES})
  target_link_libraries(${PROJECT_NAME} stdc++fs)
+ target_link_libraries(${PROJECT_NAME} Boost::filesystem)
 # target_link_libraries(${CMAKE_PROJECT_NAME} Boost::system Boost::thread)
 

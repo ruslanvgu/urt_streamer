@@ -1,9 +1,10 @@
-#include <settings.h>
+#include <reader.h>
 
 
 int main(int argc, char *argv[])
 {
-    Settings settings("/home/sysadmin/.config/Vniira");
+
+    Reader reader;
 
     return 0;
 }
