@@ -38,7 +38,7 @@ public:
 
     bool connect() {
         fd_ = open(device_.c_str(), O_RDWR);
-        return fd_ > 0 ? true : false;
+        return fd_ != -1;
     }
 
     void send_data(std::vector<unsigned char> data){}
